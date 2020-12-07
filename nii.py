@@ -33,14 +33,20 @@ class Image3D:
         fig, ax = plt.subplots()
         im = ax.imshow(self.get_given_slice(self.current_silce))
         return fig
-    def get_both_slices(self,x,y):
-        return self.nii_data[:,:,y],self.nii_data[:,x,:]
+    def get_all_slices(self,x,y,z):
+        return self.nii_data[x,:,:],self.nii_data[:,y,:], self.nii_data[:,:,z]
 
-    def plot_both_slices(self,x,y):
-        y_array, x_array = self.get_both_slices(x,y)
-        fig, ax = plt.subplots(2)
+    def get_slice(self, axis = 0, index = 0):
+
+        choose = [None if i == axis else index for i in range(3)]
+        return self.nii_data[choose]
+
+    def plot_all_slices(self,x,y,z):
+        x_array, y_array, z_array = self.get_all_slices(x,y,z)
+        fig, ax = plt.subplots(3)
         im = ax[0].imshow(x_array)
         im = ax[1].imshow(y_array)
+        im = ax[2].imshow(z_array)
         return fig
 
 
