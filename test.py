@@ -6,8 +6,8 @@ from nii import Image3D
 
 X = Image3D(r"C:\Users\cdami\PycharmProjects\Multidimentional-Visualization\avg152T1_LR_nifti.nii.gz")
 data = np.transpose(X.nii_data, axes = [2,1,0])
-data2 = np.transpose(X.nii_data, axes = [0,1,2])
-data3 = np.transpose(X.nii_data, axes = [1,2,0])
+data2 = np.transpose(X.nii_data, axes = [0,2,1])
+data3 = np.transpose(X.nii_data, axes = [1,0,2])
 
 # Inicjalizacja okna aplikacji
 app = QApplication([])
@@ -26,7 +26,7 @@ window = QWidget()
 window.setWindowTitle('PyQt5 Lab')
 
 # Ustawienie wielkości okna
-window.setGeometry(400, 400, 1500, 1500)
+window.setGeometry(400, 400, 750, 750)
 
 # Ustawienie pozycji początkowej okna
 window.move(60, 15)
@@ -34,8 +34,8 @@ layout = QGridLayout()
 
 # Dodanie pierwszego elementu do layoutu - do lewego górnego rogu
 layout.addWidget(imv,0,0)
-layout.addWidget(imv2,0,1)
-layout.addWidget(imv3,0,2)
+layout.addWidget(imv2,1,0)
+layout.addWidget(imv3,2,0)
 
 
 
