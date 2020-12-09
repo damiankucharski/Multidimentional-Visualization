@@ -1,6 +1,5 @@
 import nibabel as nib
 import matplotlib.pyplot as plt
-import streamlit as st
 class Image3D:
     def __init__(self,path):
         self.path = path
