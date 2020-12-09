@@ -16,14 +16,16 @@ class Example(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.sl = QSlider(Qt.Horizontal)
-        self.sl.setMinimum(10)
-        self.sl.setMaximum(30)
-        self.sl.setValue(20)
+        self.sl = QSlider(Qt.Vertical)
+        self.sl.setMinimum(-5)
+        self.sl.setMaximum(5)
+        self.sl.setValue(0)
         self.sl.setTickPosition(QSlider.TicksBelow)
         self.sl.setTickInterval(5)
         X1 = Image3D(r"BraTS20_Training_003/BraTS20_Training_003_t1.nii.gz")
         X2 = Image3D(r"BraTS20_Training_005/BraTS20_Training_005_t1.nii.gz")
+        self.X1_nii = X1.nii_data
+        self.X2_nii = X2.nii_data
         data = np.transpose(X1.nii_data, axes = [2,1,0])
         data2 = np.transpose(X1.nii_data, axes = [0,2,1])
         data3 = np.transpose(X1.nii_data, axes = [1,0,2])
@@ -40,9 +42,9 @@ class Example(QWidget):
         layout.addWidget(imv2,1,0)
         layout.addWidget(imv3,0,1)
         layout.addWidget(imv4,1,1)
-        layout.addWidget(self.sl,2,1)
+        layout.addWidget(self.sl,1,2)
         self.sl.valueChanged.connect(self.valuechange)
-        imv4.setImage(np.stack([X1.nii_data,X2.nii_data,np.zeros_like(X1.nii_data)],axis=3))
+        imv4.setImage(np.stack([self.X1_nii,self.X2_nii,np.zeros_like(self.X1_nii)],axis=3))
         self.setLayout(layout)
         self.setGeometry(400, 400, 750, 750)
         self.move(60, 15)
@@ -50,8 +52,13 @@ class Example(QWidget):
         self.show()
     
     def valuechange(self):
-        size = self.sl.value()
-        print(size)
+        slide_by = self.sl.value()
+        if(slide_by < 0):
+            pass
+        elif(slide_by > 0):
+            pass
+        else: pass
+        
 
 
 def main():
