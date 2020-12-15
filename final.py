@@ -19,9 +19,11 @@ class Example(QWidget):
 
     def initUI(self):
         self.input_path = self.getText()
-        paths = glob.glob("{}/*".format(self.input_path))
+        paths = glob.glob("{}/*.nii.gz".format(self.input_path))
         self.images = [Image3D(path).nii_data for path in paths]
         self.alphas =[0 for _ in paths]
+        if len(self.images)<1:
+            sys.exit()
         cumulativearray = np.zeros_like(self.images[0])
         for idx, array in enumerate(self.images):
             cumulativearray += (array * self.alphas[idx])
@@ -33,7 +35,7 @@ class Example(QWidget):
             sl.setValue(0)
             sl.setTickPosition(QSlider.TicksBelow)
             sl.setTickInterval(1)
-            sl.sliderReleased.connect(partial(self.valuechange, i))
+            sl.valueChanged.connect(partial(self.valuechange, i))
             self.sliders.append(sl)
         data = np.transpose(cumulativearray, axes = [2,1,0])
         data2 = np.transpose(cumulativearray, axes = [0,2,1])
@@ -45,7 +47,7 @@ class Example(QWidget):
         self.imv.setImage(data)
         self.imv2.setImage(data2)
         self.imv3.setImage(data3)
-        self.imv4.setImage(np.stack([self.images[0],self.images[1],self.images[2]],axis=3))
+        self.imv4.setImage(np.stack(self.images[:3],axis=3))
         self.layout = QGridLayout()
         self.layout.addWidget(self.imv,0,0)
         self.layout.addWidget(self.imv2,1,0)
