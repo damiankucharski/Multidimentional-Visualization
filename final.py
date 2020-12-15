@@ -20,7 +20,7 @@ class Example(QWidget):
     def initUI(self):
         self.input_path = self.getText()
         paths = glob.glob("{}/*.nii.gz".format(self.input_path))
-        self.images = [Image3D(path).nii_data for path in paths]
+        self.images = [Image3D(path).nii_data/Image3D(path).nii_data.max() for path in paths]
         self.alphas =[0 for _ in paths]
         if len(self.images)<1:
             sys.exit()
